@@ -6,7 +6,7 @@ Egypt-focused price radar for games first, then software and apps.
 
 `CheapShark → Vercel Data Engine → cached normalized JSON → Lumen UI`
 
-The browser should not depend directly on CheapShark for the main feed. Server-side API routes normalize the data and use Vercel cache headers. A cron route warms the feed every 15 minutes.
+The browser should not depend directly on CheapShark for the main feed. Server-side API routes normalize the data and use cache headers. A cron route warms the feed every 15 minutes.
 
 ## Data Engine
 
