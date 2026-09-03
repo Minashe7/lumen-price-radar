@@ -27,7 +27,8 @@ create table if not exists public.price_alerts (
   target_egp numeric(12,2) not null check (target_egp > 0),
   active boolean not null default true,
   created_at timestamptz not null default now(),
-  triggered_at timestamptz
+  triggered_at timestamptz,
+  unique (user_id, game_id)
 );
 
 alter table public.profiles enable row level security;
