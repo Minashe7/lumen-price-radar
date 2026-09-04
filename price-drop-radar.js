@@ -1,28 +1,38 @@
-/* Lumen Price Drop Radar
- * Client-side enhancement: highlights unusually strong current discounts.
- * It intentionally does NOT claim a historical price drop unless history data exists.
- */
+/* Lumen Price Drop Radar — UI-only layer.
+   Reads rendered deal cards, so it does not depend on private app.js state.
+   It intentionally says "current strong discounts", not historical drops.
+*/
 (function(){
-  function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function money(v,rate){const n=Number(v);return Number.isFinite(n)?`${Math.round(n*rate).toLocaleString('en-US')} ج.م`:'—';}
+  function render(){
+    const host=document.getElementById('priceDropList');
+    const source=document.querySelectorAll('#deals .deal');
+    if(!host||!source.length)return;
+    const rows=[...source].map(el=>{
+      const text=[...el.querySelectorAll('small')].map(x=>x.textContent||'').join(' ');
+      const m=text.match(/([0-9]+)%/);
+      return {el,pct:Number(m?.[1]||0)};
+    }).filter(x=>x.pct>=50).sort((a,b)=>b.pct-a.pct).slice(0,6);
+    host.innerHTML=rows.length?rows.map(({el})=>{
+      const clone=el.cloneNode(true);
+      const a=clone.querySelector('a');
+      if(a){a.textContent='عرض ↗';a.className='buy';}
+      return clone.outerHTML;
+    }).join(''):'<p class="muted">مفيش تخفيضات قوية كفاية دلوقتي.</p>';
+  }
   function install(){
+    if(document.getElementById('priceDropRadar'))return;
     const main=document.querySelector('main');
-    if(!main||document.getElementById('priceDropRadar')) return;
+    if(!main)return;
     const section=document.createElement('section');
     section.id='priceDropRadar';
-    section.innerHTML='<div class="sectionHead"><h2>Price Drop Radar</h2><span class="muted">أقوى التخفيضات الحالية</span></div><div class="dealList" id="priceDropList"></div>';
-    const software=document.getElementById('software')?.parentElement;
-    if(software) software.before(section); else main.appendChild(section);
+    section.innerHTML='<div class="sectionHead"><h2>Price Drop Radar</h2><span class="muted">أقوى التخفيضات الحالية</span></div><div id="priceDropList" class="dealList"></div>';
+    const best=document.getElementById('best')?.parentElement;
+    if(best)best.after(section);else main.appendChild(section);
     render();
   }
-  function render(){
-    const list=document.getElementById('priceDropList');
-    const S=window.S;
-    if(!list||!S||!Array.isArray(S.deals)) return;
-    const rate=Number(S.fx)||51;
-    const deals=S.deals.filter(d=>Number(d.savings)>=50).sort((a,b)=>Number(b.savings)-Number(a.savings)).slice(0,8);
-    list.innerHTML=deals.length?deals.map((d,i)=>`<article class="deal"><div class="thumb">${d.thumb?`<img src="${esc(d.thumb)}" alt="">`:'◈'}</div><div class="dealInfo"><b>${esc(d.title)}</b><small>${esc(window.stores?.[String(d.storeID)]||'Store')} · خصم ${Math.round(Number(d.savings)||0)}%</small><strong>${money(d.salePrice,rate)}</strong></div><a class="buy" href="/api/track?storeID=${encodeURIComponent(d.storeID||'')}&title=${encodeURIComponent(d.title||'game')}&steamAppID=${encodeURIComponent(d.steamAppID||'')}" target="_blank" rel="noopener">عرض ↗</a></article>`).join(''):'<p class="muted">مفيش تخفيضات قوية كفاية دلوقتي.</p>';
-  }
-  function boot(){install();setInterval(()=>{install();render()},1500);}
-  window.addEventListener('load',boot);
+  window.addEventListener('load',()=>{
+    install();
+    const target=document.getElementById('deals');
+    if(target)new MutationObserver(render).observe(target,{childList:true,subtree:true});
+  });
 })();
