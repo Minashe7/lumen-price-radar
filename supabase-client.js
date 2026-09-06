@@ -9,7 +9,10 @@
       try{this.client=window.supabase.createClient(saved.url,saved.key);return this.client}catch(e){console.warn(e);return null}
     },
     async user(){if(!this.client)return null;const r=await this.client.auth.getUser();return r.data?.user||null},
-    async login(){if(!this.client)throw Error('CONFIG');return this.client.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin}})},
+    async login(provider){
+      if(!this.client)throw Error('CONFIG');
+      return this.client.auth.signInWithOAuth({provider,options:{redirectTo:location.origin}});
+    },
     async logout(){if(this.client)await this.client.auth.signOut()},
     save(url,key){localStorage.setItem('lumen:supabase',JSON.stringify({url:url.trim().replace(/\/$/,''),key:key.trim()}));location.reload()},
     clear(){localStorage.removeItem('lumen:supabase');location.reload()}
