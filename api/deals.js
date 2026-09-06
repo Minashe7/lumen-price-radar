@@ -1,4 +1,3 @@
-const ALLOWED_STORES = new Set(['1','2','3','4','5','6']);
 const API = 'https://www.cheapshark.com/api/1.0';
 
 async function upstream(path) {
@@ -21,7 +20,9 @@ export default async function handler(req, res) {
   const sortBy = ['DealRating','Savings','Price','Recent'].includes(req.query.sortBy) ? req.query.sortBy : 'DealRating';
   try {
     const data = await upstream(`/deals?pageSize=${pageSize}&sortBy=${sortBy}&desc=0`);
-    const deals = Array.isArray(data) ? data.filter(d => ALLOWED_STORES.has(String(d.storeID))).map(normalize) : [];
+    const deals = Array.isArray(data)
+      ? data.map(normalize).filter(d => d.gameID && d.title && d.salePrice > 0)
+      : [];
     res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=3600');
     res.status(200).json({ ok:true, source:'cheapshark', updatedAt:new Date().toISOString(), deals });
   } catch (e) {
