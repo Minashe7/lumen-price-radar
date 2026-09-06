@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08080d">
+<meta name="description" content="Lumen Price Radar — تفاصيل اللعبة ومقارنة الأسعار والمتاجر.">
+<title>Lumen — Game Details</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+.gamePage{max-width:1180px;margin:auto;padding:18px 14px 70px}
+.gameBack{display:inline-flex;align-items:center;gap:7px;color:#aaa6b4;text-decoration:none;margin:8px 0 18px}
+.gameBack:hover{color:#fff}.gameHeader{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);gap:20px;align-items:stretch}
+.gameHeroCard,.gamePriceCard,.gameAbout,.gameOffers{background:#111119;border:1px solid #292936;border-radius:18px}
+.gameHeroCard{overflow:hidden}.gameHeroImg{width:100%;aspect-ratio:16/7;object-fit:cover;display:block;background:#171720}
+.gameHeroBody{padding:20px}.eyebrow{color:#a78bfa;font-size:11px;letter-spacing:.12em}.gameTitle{font-size:34px;line-height:1.15;margin:8px 0}.muted{color:#9692a0}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.chip{background:#171720;border:1px solid #292936;color:#b8b4c1;border-radius:999px;padding:7px 10px;font-size:11px}
+.gamePriceCard{padding:20px;display:flex;flex-direction:column;justify-content:center}.priceLabel{color:#9692a0;font-size:12px}.bigPrice{font-size:36px;font-weight:900;margin:7px 0}.subPrice{color:#777381;font-size:12px}.gameStats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#171720;border:1px solid #292936;border-radius:12px;padding:11px}.stat small{display:block;color:#85818f}.stat b{display:block;margin-top:4px}.gameSection{margin-top:20px}.gameSection h2{font-size:20px;margin:0 0 12px}.gameAbout{padding:20px;line-height:1.8;color:#b3afba}.gameAbout p{margin:0}.aboutMeta{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.metaBox{background:#171720;border:1px solid #292936;border-radius:12px;padding:11px}.metaBox small{display:block;color:#85818f}.metaBox b{display:block;margin-top:4px;font-size:12px}.offerList{display:grid;gap:10px}.offerRow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:15px;align-items:center;background:#111119;border:1px solid #292936;border-radius:14px;padding:14px}.storeName{font-weight:800}.storeNote{font-size:11px;color:#85818f;margin-top:4px}.offerPrice{text-align:center}.offerPrice strong{font-size:21px}.offerPrice s{display:block;color:#686573;font-size:11px}.discount{color:#86efac;font-size:11px;margin-top:3px}.buyBtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#6d39c8;color:#fff;border-radius:10px;padding:10px 14px;white-space:nowrap}.sourceNote{margin-top:12px;color:#777381;font-size:11px}
+.loadingBox,.errorBox{padding:35px;text-align:center;background:#111119;border:1px solid #292936;border-radius:18px}.errorBox a{color:#c4b5fd}
+@media(max-width:700px){.gamePage{padding:10px 10px 55px}.gameHeader{grid-template-columns:1fr;gap:10px}.gameTitle{font-size:25px}.gameHeroBody,.gamePriceCard,.gameAbout{padding:15px}.bigPrice{font-size:29px}.gameStats{grid-template-columns:repeat(3,1fr)}.aboutMeta{grid-template-columns:repeat(2,1fr)}.offerRow{grid-template-columns:1fr auto;gap:9px}.offerPrice{grid-column:1/-1;text-align:right}.buyBtn{grid-column:2;grid-row:1}.storeBlock{grid-column:1;grid-row:1}.gameHeroImg{aspect-ratio:16/9}}
+</style>
+</head>
+<body>
+<header class="top"><a href="/" class="icon" aria-label="العودة">←</a><div class="brand"><b>LUMEN</b><span>PRICE RADAR</span></div><div></div></header>
+<main id="gameRoot" class="gamePage"><div class="loadingBox">جاري تحميل تفاصيل اللعبة...</div></main>
+<script src="/game-details.js"></script>
+</body>
+</html>
